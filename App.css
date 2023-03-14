@@ -1,0 +1,16 @@
+#startButton {
+
+    padding: 1rem;
+    color: red;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    margin:1rem;
+    gap: 2rem;
+}
+
+ #progress {
+    width: 100%;
+}
