@@ -8,6 +8,7 @@ import {
   getStorage,
   ref as ref_storage,
   uploadBytes,
+  getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-storage.js";
 
 import {
@@ -46,11 +47,8 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
-
 // Initialize Cloud Storage and get a reference to the service
 const storage = getStorage(app);
-
-const voiceRef = ref_storage(storage, "audio/myVoice.wav");
 
 let userId;
 
@@ -112,13 +110,68 @@ function makeRecording() {
       });
       // Listen for stop event
       recorder.addEventListener("stop", function () {
+        const clipName = prompt(
+          "Enter a name for your sound clip?",
+          "My unnamed clip"
+        );
+
+        const playEditEl = document.getElementById("playEdit");
+
+        const clipContainer = document.createElement("article");
+        const clipLabel = document.createElement("p");
+        const audio = document.createElement("audio");
+        const deleteButton = document.createElement("button");
+        const uploadButton = document.createElement("button");
+        uploadButton.textContent = "Upload";
+
+        const clipInfoDiv = document.createElement("div");
+        clipInfoDiv.classList.add("clipInfo");
+
+        clipContainer.classList.add("clip");
+        audio.setAttribute("controls", "");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "delete";
+
+        if (clipName === null) {
+          clipLabel.textContent = "My unnamed clip";
+        } else {
+          clipLabel.textContent = clipName;
+        }
+
+        clipInfoDiv.appendChild(clipLabel);
+        clipInfoDiv.appendChild(uploadButton);
+        clipInfoDiv.appendChild(deleteButton);
+
+        clipContainer.appendChild(audio);
+        clipContainer.appendChild(clipInfoDiv);
+
+        playEditEl.appendChild(clipContainer);
+
+        ////////////
         // Create a Blob object from the chunks
         var blob = new Blob(chunks, { type: "audio/wav" });
 
-        // Upload the Blob object to Firebase
-        uploadBytes(voiceRef, blob).then((snapshot) => {
-          console.log("Uploaded a blob or file!");
+        ///////
+        // place audio recorded onto page and add event handlers for buttons
+        const audioURL = window.URL.createObjectURL(blob);
+        audio.src = audioURL;
+
+        uploadButton.addEventListener("click", function (e) {
+          // clipName is name of the clip to be used...
+
+          const fileName = clipName + ".wav";
+          const voiceRef = ref_storage(storage, "audio/" + fileName);
+
+          uploadBytes(voiceRef, blob).then((snapshot) => {
+            console.log("Uploaded a blob or file!");
+          });
         });
+
+        deleteButton.addEventListener("click", function (e) {
+          e.target.closest(".clip").remove();
+        });
+
+        /////////////////////////////////
       });
       // Start recording
       recorder.start();

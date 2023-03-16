@@ -10,12 +10,16 @@
   </head>
   <body>
     <div id="app">
-      <h1>Audio capture interface:</h1>
-      <button id="startButton">Start recording</button>
-      <label for="progress">recording progress:</label>
-      <progress id="progress" max="100" value="0"></progress>
-      <label for="volume">volume control:</label>
-      <input type="range" name="volume" id="volume" />
+      <section id="capture">
+        <h1>Audio capture interface:</h1>
+        <div id="recordingControls">
+          <button id="startButton">Start recording</button>
+          <button id="stopButton">Stop recording</button>
+        </div>
+        <label for="progress">recording progress:</label>
+        <progress id="progress" max="100" value="0"></progress>
+      </section>
+      <section id="playEdit"></section>
     </div>
   </body>
 </html>

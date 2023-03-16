@@ -1,16 +1,61 @@
+
+button {
+    border: 1px dashed gray;
+    border-radius: 8px;
+}
+
 #startButton {
 
     padding: 1rem;
     color: red;
 }
 
-#app {
+#stopButton {
+    padding:1rem;
+}
+
+#capture {
     display: flex;
     flex-direction: column;
     margin:1rem;
     gap: 2rem;
 }
 
+#recordingControls {
+    display: flex;
+    flex-direction: row;
+    margin:1rem;
+    gap: 2rem;
+}
+#recordingControls > * {
+    flex-basis: 100%;
+}
+
  #progress {
+    width: 100%;
+}
+
+#playEdit {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    gap: 2rem;
+
+}
+.clip {
+
+    border: 1px dashed green;
+
+}
+.clipInfo {
+    display: flex;
+    margin:1rem;
+    gap: 2rem;
+}
+.delete {
+    background-color: red;
+    color: white;
+}
+audio {
     width: 100%;
 }
